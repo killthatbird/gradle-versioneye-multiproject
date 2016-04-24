@@ -1,0 +1,39 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		maven {
+			url 'http://oss.sonatype.org/content/repositories/snapshots/'
+		}
+		jcenter()
+	}
+	dependencies {
+		classpath 'org.standardout:gradle-versioneye-plugin:1.4.0-SNAPSHOT'
+	}
+}
+  
+apply plugin: 'org.standardout.versioneye'
+
+versioneye {
+	includeSubProjects = true
+}
+
+// START SNIPPET configuration-injection
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse-wtp'
+
+    repositories {
+       mavenCentral()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
+
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+}
+// END SNIPPET configuration-injection
